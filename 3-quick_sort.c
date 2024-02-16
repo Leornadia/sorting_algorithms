@@ -1,46 +1,45 @@
 #include "sort.h"
+
 /**
- * swap - Swap two elements in an array
- * @a: First element
- * @b: Second element
- * @array: The array
+ * swap_ints - Swap two integers in an array.
+ * @a: The first integer to swap.
+ * @b: The second integer to swap.
  */
-void swap(int *a, int *b, int *array)
+void swap_ints(int *a, int *b)
 {
-int temp = *a;
-*a = *b;
-*b = temp;
-print_array(array, 10);
+	int tmp;
+
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
 }
+
 /**
- * lomuto_partition - Lomuto partition scheme
- * @array: The array to partition
- * @low: Starting index
- * @high: Ending index
- * Return: Index of partition
+ * selection_sort - Sort an array of integers in ascending order
+ *                  using the selection sort algorithm.
+ * @array: An array of integers.
+ * @size: The size of the array.
+ *
+ * Description: Prints the array after each swap.
  */
-int lomuto_partition(int *array, int low, int high)
+void selection_sort(int *array, size_t size)
 {
-int pivot = array[high];
-int i = low - 1;
-int j;
-for (j = low; j < high; j++)
-{
-if (array[j] <= pivot)
-{
-i++;
-swap(&array[i], &array[j], array);
-}
-}
-swap(&array[i + 1], &array[high], array);
-return (i + 1);
-}
-/**
- * quick_sort - Sort array using quicksort algorithm
- * @array: The array to sort
- * @size: Size of the array
- */
-void quick_sort(int *array, size_t size)
-{
-lomuto_partition(array, 0, size - 1);
+	int *min;
+	size_t i, j;
+
+	if (array == NULL || size < 2)
+		return;
+
+	for (i = 0; i < size - 1; i++)
+	{
+		min = array + i;
+		for (j = i + 1; j < size; j++)
+			min = (array[j] < *min) ? (array + j) : min;
+
+		if ((array + i) != min)
+		{
+			swap_ints(array + i, min);
+			print_array(array, size);
+		}
+	}
 }
